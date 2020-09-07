@@ -22,8 +22,7 @@ function calc(file) {
           debits.push(parseInt(item["Amount"]));
         }
       });
-      console.log(debits);
-      console.log(credits);
+
       let creditTotal = 0; // Variable to hold your total
 
       for (let i = 0; i < credits.length; i++) {
