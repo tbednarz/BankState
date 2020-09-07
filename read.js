@@ -8,7 +8,8 @@ const results = [];
 let credits = [];
 let debits = [];
 
-function calc(file) {
+//read csv, seperate debits and credits, turn into objects and push to arrays.
+function formObjects(file) {
   fs.createReadStream(file)
     .pipe(csv())
     .on("data", (data) => results.push(data))
@@ -16,32 +17,43 @@ function calc(file) {
       results.forEach((item) => {
         //these arrays will be an array of strings until parsed
         if (item["Credit or Debit"] === "Credit") {
-          credits.push(parseInt(item["Amount"]));
+          let obj = {
+            Description: item["Description"],
+            Amount: parseInt(item["Amount"]),
+          };
+          return credits.push(obj);
         }
         if (item["Credit or Debit"] === "Debit") {
-          debits.push(parseInt(item["Amount"]));
+          let obj = {
+            Description: item["Description"],
+            Amount: parseInt(item["Amount"]),
+          };
+          return debits.push(obj);
         }
       });
-      console.log(debits);
-      console.log(credits);
-      let creditTotal = 0; // Variable to hold your total
-
-      for (let i = 0; i < credits.length; i++) {
-        creditTotal += credits[i];
-      }
-
-      let debitTotal = 0;
-
-      for (let i = 0; i < debits.length; i++) {
-        debitTotal += debits[i];
-      }
-      let savedOrLost = creditTotal - debitTotal;
-      if (savedOrLost > 0) {
-        console.log("you saved: " + savedOrLost + " this month.");
-      }
-      if (savedOrLost < 0) {
-        console.log("you lost: " + savedOrLost + " this month.");
-      }
+      return credits;
     });
 }
-calc("./csv/sofar.csv");
+console.log(formObjects("august.csv"));
+// function calculateLoss() {
+//   console.log(formObjects(file));
+//   // let creditTotal = 0; // Variable to hold your total
+
+//   // for (let i = 0; i < credits.length; i++) {
+//   //   creditTotal += credits[i].Amount;
+//   // }
+
+//   // let debitTotal = 0;
+
+//   // for (let i = 0; i < debits.length; i++) {
+//   //   debitTotal += debits[i].Amount;
+//   // }
+//   // let savedOrLost = creditTotal - debitTotal;
+//   // if (savedOrLost > 0) {
+//   //   console.log("you saved: " + savedOrLost + " this month.");
+//   // }
+//   // if (savedOrLost < 0) {
+//   //   console.log("you lost: " + savedOrLost + " this month.");
+//   // }
+// }
+// calculateLoss();
