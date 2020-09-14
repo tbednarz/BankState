@@ -34,13 +34,15 @@ function formObjects(file, callback) {
       callback(credits, debits);
     });
 }
-
+//return results from formObjects()
 function callback(creditInput, debitInput) {
   sortCredits(creditInput);
   sumGoPuff(debitInput);
   sumUberRides(debitInput);
   sumOtherDebits(debitInput);
 }
+
+//Total all misc expenses
 function sumOtherDebits(debits) {
   let otherDebitsArray = [];
   for (let i = 0; i < debits.length; i++) {
@@ -67,6 +69,8 @@ function sumOtherDebits(debits) {
   console.log("Total Spent on other purchases: ");
   console.log(otherDebitsTotal);
 }
+
+//total uber expense
 function sumUberRides(debits) {
   let otherDebitsArray = [];
   for (let i = 0; i < debits.length; i++) {
@@ -91,6 +95,7 @@ function sumUberRides(debits) {
   console.log(uberTotal);
 }
 
+//total total spent on gopuff
 function sumGoPuff(debits) {
   let goPuffArray = [];
   for (let i = 0; i < debits.length; i++) {
@@ -111,7 +116,7 @@ function sumGoPuff(debits) {
   console.log("Total Spent on goPuff: ");
   console.log(goPuffTotal);
 }
-
+//total credits to account
 function sortCredits(credits) {
   let payrollArray = [];
   for (let i = 0; i < credits.length; i++) {
@@ -135,7 +140,7 @@ function sortCredits(credits) {
   console.log("Total gained in payroll: ");
   console.log(payrollTotal);
 }
-
+//turns the object description key:value to a string to use includes() above
 function toString(obj) {
   return JSON.stringify(obj.Description);
 }
