@@ -1,11 +1,5 @@
 # BankState
-Upload CSV of your monthly bank statement to find out if you've lost or saved money that month!
-
-
-Create a folder and name it whatever you like. </br>
-drag and drop your csv bank statement into the folder </br>
-provide path to csv file in the function call </br>
-run ```node read.js```
+I am creating this do sort my expenses. I drop a csv of my bank statement into csv folder and it will sort and return totals for specified expenses. IE Uber, goPuff and misc spending.
 
 magic </br>
 
