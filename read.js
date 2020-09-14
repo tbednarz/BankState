@@ -139,25 +139,5 @@ function sortCredits(credits) {
 function toString(obj) {
   return JSON.stringify(obj.Description);
 }
-// SORT CHECKS
-//start at first check and get description, check if next description contains same string else move to next.
 
-// let creditTotal = 0; // Variable to hold your total
-// for (let i = 0; i < credits.length; i++) {
-//   creditTotal += credits[i].Amount;
-// }
-// let debitTotal = 0;
-// for (let i = 0; i < debits.length; i++) {
-//   debitTotal += debits[i].Amount;
-// }
-// let savedOrLost = creditTotal - debitTotal;
-// console.log("Credit total: " + creditTotal);
-// console.log("Debit total: " + debitTotal);
-// if (savedOrLost > 0) {
-//   console.log("you saved: " + savedOrLost + " this month.");
-// }
-// if (savedOrLost < 0) {
-//   console.log("you lost: " + savedOrLost + " this month.");
-// }
-
-formObjects("august.csv", callback);
+formObjects("csv/august.csv", callback);
