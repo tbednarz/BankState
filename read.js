@@ -21,20 +21,22 @@ function formObjects(file) {
             Description: item["Description"],
             Amount: parseInt(item["Amount"]),
           };
-          return credits.push(obj);
+          credits.push(obj);
         }
         if (item["Credit or Debit"] === "Debit") {
           let obj = {
             Description: item["Description"],
             Amount: parseInt(item["Amount"]),
           };
-          return debits.push(obj);
+          debits.push(obj);
         }
       });
-      return credits;
+      //return debits <--- returns undefined
     });
+  return debits;
 }
-console.log(formObjects("august.csv"));
+let pug = formObjects("august.csv");
+console.log(pug);
 // function calculateLoss() {
 //   console.log(formObjects(file));
 //   // let creditTotal = 0; // Variable to hold your total
