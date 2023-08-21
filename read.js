@@ -1,9 +1,6 @@
 const csv = require("csv-parser");
 const fs = require("fs");
-
-//RESULTS is to total read in CSV data
-const results = [];
-
+let results =[]
 //pushed in from forEach below
 let credits = [];
 let debits = [];
@@ -19,130 +16,143 @@ function formObjects(file, callback) {
         if (item["Credit or Debit"] === "Credit") {
           let obj = {
             Description: item["Description"],
-            Amount: parseInt(item["Amount"]),
+            Amount: parseFloat(item["Amount"]),
           };
           credits.push(obj);
         }
         if (item["Credit or Debit"] === "Debit") {
           let obj = {
             Description: item["Description"],
-            Amount: parseInt(item["Amount"]),
+            Amount: parseFloat(item["Amount"]),
           };
           debits.push(obj);
         }
       });
       callback(credits, debits);
+      // console.log( credits, debits)
     });
 }
 //return results from formObjects()
 function callback(creditInput, debitInput) {
   sortCredits(creditInput);
-  sumGoPuff(debitInput);
-  sumUberRides(debitInput);
   sumOtherDebits(debitInput);
+  findGroceryBills(debitInput)
+  findInsuranceTotal(debitInput)
+  findAmazonTotal(debitInput)
+  findMcdonaldsTotal(debitInput)
+  findSteamTotal(debitInput)
+  findHelloFreshTotal(debitInput)
+
 }
 
+function sortCredits(credits) {
+  let payrollArray = [];
+  for(let i = 0; i < credits.length; i++){
+    payrollArray.push(credits[i].Amount)
+  }
+  let creditTotal = payrollArray.reduce((acc, curr) => acc + curr, 0)
+
+  console.log("Total gained in credits: ", creditTotal);
+
+}
 //Total all misc expenses
 function sumOtherDebits(debits) {
   let otherDebitsArray = [];
-  for (let i = 0; i < debits.length; i++) {
-    let initialDescription = toString(debits[i]);
-    if (
-      !initialDescription.includes("UBER") &&
-      !initialDescription.includes("GOPUFF")
-    ) {
-      for (let j = 1; j < debits.length; j++) {
-        if (toString(debits[j]).includes(initialDescription)) {
-          otherDebitsArray.push(debits[j]);
-        }
-      }
-    }
+  for(let i = 0; i < debits.length; i++){
+    otherDebitsArray.push(debits[i].Amount)
   }
-  var otherDebitsTotal = otherDebitsArray.reduce(function (
-    previousValue,
-    currentValue
-  ) {
-    return {
-      Amount: previousValue.Amount + currentValue.Amount,
-    };
-  });
-  console.log("Total Spent on other purchases: ");
-  console.log(otherDebitsTotal);
+  let debitTotal = otherDebitsArray.reduce((acc, curr) => acc + curr, 0)
+  console.log("Total Spent on other purchases: ", debitTotal);
+  
+}
+function findGroceryBills(debits){
+  let groceryArray = [];
+  for(let i = 0; i < debits.length; i++){
+    let description = debits[i].Description;
+    //change value in includes to find something specific ie "MCDONALDS, WALMART" or however it appears on your statement
+    if(description.includes("CARMEN")){
+      groceryArray.push(debits[i].Amount)
+    }
+}
+let groceryTotal = groceryArray.reduce((acc, curr) => acc + curr, 0)
+console.log("Grocery Total: ", groceryTotal)
+
+}
+function findInsuranceTotal(debits){
+  let groceryArray = [];
+  for(let i = 0; i < debits.length; i++){
+    let description = debits[i].Description;
+    //change value in includes to find something specific ie "MCDONALDS, WALMART" or however it appears on your statement
+    if(description.includes("ALLSTATE")){
+      groceryArray.push(debits[i].Amount)
+    }
+    if(description.includes("STATE FARM")){
+      groceryArray.push(debits[i].Amount)
+    }
+}
+let groceryTotal = groceryArray.reduce((acc, curr) => acc + curr, 0)
+console.log("Insurance Total: ", groceryTotal)
 }
 
-//total uber expense
-function sumUberRides(debits) {
-  let otherDebitsArray = [];
-  for (let i = 0; i < debits.length; i++) {
-    let initialDescription = toString(debits[i]);
-    if (initialDescription.includes("UBER")) {
-      for (let j = 1; j < debits.length; j++) {
-        if (toString(debits[j]).includes(initialDescription)) {
-          otherDebitsArray.push(debits[j]);
-        }
-      }
+function findAmazonTotal(debits){
+  let groceryArray = [];
+  for(let i = 0; i < debits.length; i++){
+    let description = debits[i].Description;
+    //change value in includes to find something specific ie "MCDONALDS, WALMART" or however it appears on your statement
+    if(description.includes("AMAZON")){
+      groceryArray.push(debits[i].Amount)
     }
-  }
-  var uberTotal = otherDebitsArray.reduce(function (
-    previousValue,
-    currentValue
-  ) {
-    return {
-      Amount: previousValue.Amount + currentValue.Amount,
-    };
-  });
-  console.log("Total Spent on Uber: ");
-  console.log(uberTotal);
+  
+}
+let groceryTotal = groceryArray.reduce((acc, curr) => acc + curr, 0)
+console.log("Amazon Total: ", groceryTotal)
 }
 
-//total total spent on gopuff
-function sumGoPuff(debits) {
-  let goPuffArray = [];
-  for (let i = 0; i < debits.length; i++) {
-    let initialDescription = toString(debits[i]);
-    if (initialDescription.includes("GOPUFF")) {
-      for (let j = 1; j < debits.length; j++) {
-        if (toString(debits[j]).includes(initialDescription)) {
-          goPuffArray.push(debits[j]);
-        }
-      }
+function findMcdonaldsTotal(debits){
+  let groceryArray = [];
+  for(let i = 0; i < debits.length; i++){
+    let description = debits[i].Description;
+    //change value in includes to find something specific ie "MCDONALDS, WALMART" or however it appears on your statement
+    if(description.includes("MCDONALDS")){
+      groceryArray.push(debits[i].Amount)
     }
-  }
-  var goPuffTotal = goPuffArray.reduce(function (previousValue, currentValue) {
-    return {
-      Amount: previousValue.Amount + currentValue.Amount,
-    };
-  });
-  console.log("Total Spent on goPuff: ");
-  console.log(goPuffTotal);
+  
 }
-//total credits to account
-function sortCredits(credits) {
-  let payrollArray = [];
-  for (let i = 0; i < credits.length; i++) {
-    let initialDescription = toString(credits[i]);
-    if (initialDescription.includes("GOBRANDS")) {
-      for (let j = 1; j < credits.length; j++) {
-        if (toString(credits[j]).includes(initialDescription)) {
-          payrollArray.push(credits[j]);
-        }
-      }
+let groceryTotal = groceryArray.reduce((acc, curr) => acc + curr, 0)
+console.log("Mcdonalds Total: ", groceryTotal)
+}
+function findSteamTotal(debits){
+  let groceryArray = [];
+  for(let i = 0; i < debits.length; i++){
+    let description = debits[i].Description;
+    //change value in includes to find something specific ie "MCDONALDS, WALMART" or however it appears on your statement
+    if(description.includes("STEAM")){
+      groceryArray.push(debits[i].Amount)
     }
-  }
-  var payrollTotal = payrollArray.reduce(function (
-    previousValue,
-    currentValue
-  ) {
-    return {
-      Amount: previousValue.Amount + currentValue.Amount,
-    };
-  });
-  console.log("Total gained in payroll: ");
-  console.log(payrollTotal);
+  
 }
-//turns the object description key:value to a string to use includes() above
-function toString(obj) {
-  return JSON.stringify(obj.Description);
+let groceryTotal = groceryArray.reduce((acc, curr) => acc + curr, 0)
+console.log("Steam Total: ", groceryTotal)
 }
 
-formObjects("csv/august.csv", callback);
+function findHelloFreshTotal(debits){
+  let groceryArray = [];
+  for(let i = 0; i < debits.length; i++){
+    let description = debits[i].Description;
+    //change value in includes to find something specific ie "MCDONALDS, WALMART" or however it appears on your statement
+    if(description.includes("HELLOFRESH")){
+      groceryArray.push(debits[i].Amount)
+    }
+  
+}
+let groceryTotal = groceryArray.reduce((acc, curr) => acc + curr, 0)
+console.log("hellofresh Total: ", groceryTotal)
+}
+
+
+
+
+
+
+
+formObjects("csv/one-year-statement.csv", callback);
